@@ -125,6 +125,8 @@ const Content = ... {
 
 Our application passes on information in quite a primitive way at the moment, since it is based on individual variables. We shall fix that in [part 2](https://fullstackopen.com/en/part2), but before that, let's go to part1b to learn about JavaScript.
 
+# Part 1b JavaScript
+
 ## Exercises 1.3.-1.5.
 
 _We continue building the application that we started working on in the previous exercises. You can write the code into the same project since we are only interested in the final state of the submitted application._
