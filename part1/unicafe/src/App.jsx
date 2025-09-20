@@ -1,24 +1,39 @@
 import { useState } from 'react'
 
-const Statistics = ({ good, neutral, bad }) => {
+const Header = ({ name }) => {
+  return <h1>{name}</h1>
+}
 
-  if (good + neutral + bad === 0) {
-    return (
-      <div>
-        no feedback given
-      </div>
-    )
+const Button = ({ name, onClick }) => {
+  return <button onClick={onClick}>{name}</button>
+}
+
+const StatisticLine = ({ text, value }) => {
+  return (
+    <div>
+      {text}: {value}
+    </div>
+  )
+}
+
+const Statistics = ({ good, neutral, bad }) => {
+  const total = good + neutral + bad
+  const average = total === 0 ? 0 : (good - bad) / total
+  const positive = total === 0 ? 0 : (good / total) * 100
+
+  if (total === 0) {
+    return <p>No feedback given</p>
   }
 
   return (
-    <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {good + neutral + bad}</p>
-      <p>average {(good - bad) / (good + neutral + bad) || 0}</p>
-      <p>positive {good / (good + neutral + bad) * 100 || 0} %</p>
-    </div>
+    <>
+      <StatisticLine text="good" value={good} />
+      <StatisticLine text="neutral" value={neutral} />
+      <StatisticLine text="bad" value={bad} />
+      <StatisticLine text="total" value={total} />
+      <StatisticLine text="average" value={average} />
+      <StatisticLine text="positive" value={positive + " %"} />
+    </>
   )
 }
 
@@ -30,11 +45,11 @@ const App = () => {
 
   return (
     <div>
-      <h1>give feedback</h1>
-      <button onClick={() => setGood(good + 1)}>good</button>
-      <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
-      <button onClick={() => setBad(bad + 1)}>bad</button>
-      <h1>statistics</h1>
+      <Header name="give feedback" />
+      <Button name="good" onClick={() => setGood(good + 1)} />
+      <Button name="neutral" onClick={() => setNeutral(neutral + 1)} />
+      <Button name="bad" onClick={() => setBad(bad + 1)} />
+      <Header name="statistics" />
       <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
