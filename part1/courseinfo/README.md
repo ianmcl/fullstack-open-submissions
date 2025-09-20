@@ -252,3 +252,7 @@ const App = () => {
   )
 }
 ```
+
+# Part 1c Component state, event handlers
+
+no exercises
