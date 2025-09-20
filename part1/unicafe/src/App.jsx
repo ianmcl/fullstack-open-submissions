@@ -17,7 +17,6 @@ const StatisticLine = ({ text, value }) => {
   )
 }
 
-
 const Statistics = ({ good, neutral, bad }) => {
   const total = good + neutral + bad
   const average = total === 0 ? 0 : (good - bad) / total
