@@ -18,12 +18,14 @@ const App = () => {
     'The only way to go fast, is to go well.'
   ]
 
-  const initialVotes = Array(anecdotes.length).fill(0)
-  const [votes, setVotes] = useState(initialVotes)
+  const [votes, setVotes] = useState(Array(anecdotes.length).fill(0))
   const [selected, setSelected] = useState(0)
 
   const handleNext = () => {
-    const randomIndex = Math.floor(Math.random() * anecdotes.length)
+    let randomIndex
+    do {
+      randomIndex = Math.floor(Math.random() * anecdotes.length)
+    } while (randomIndex === selected)
     setSelected(randomIndex)
   }
 
@@ -33,12 +35,12 @@ const App = () => {
     setVotes(newVotes)
   }
 
-  let mostVotedIndex = 0;
-  for (let i = 0; i < votes.length; i++) {
-    if (votes[i] > votes[mostVotedIndex]) {
-      mostVotedIndex = i;
-    }
-  }
+  const mostVotedIndex = votes.reduce(
+    (maxIdx, voteCount, idx) => voteCount > votes[maxIdx] ? idx : maxIdx,
+    0
+  )
+
+  const maxVotes = Math.max(...votes)
 
   return (
     <div>
@@ -48,9 +50,13 @@ const App = () => {
       <Button onClick={handleVote} text="vote" />
       <Button onClick={handleNext} text="next anecdote" />
 
-      <h1>Anecdote with most votes</h1>
-      <p>{anecdotes[mostVotedIndex]}</p>
-      <p>has {votes[mostVotedIndex]} votes</p>
+      {maxVotes > 0 && (
+        <>
+          <h1>Anecdote with most votes</h1>
+          <p>{anecdotes[mostVotedIndex]}</p>
+          <p>has {votes[mostVotedIndex]} votes</p>
+        </>
+      )}
     </div>
   )
 }
