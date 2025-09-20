@@ -33,6 +33,13 @@ const App = () => {
     setVotes(newVotes)
   }
 
+  let mostVotedIndex = 0;
+  for (let i = 0; i < votes.length; i++) {
+    if (votes[i] > votes[mostVotedIndex]) {
+      mostVotedIndex = i;
+    }
+  }
+
   return (
     <div>
       <h1>Anecdote of the day</h1>
@@ -40,6 +47,10 @@ const App = () => {
       <p>has {votes[selected]} votes</p>
       <Button onClick={handleVote} text="vote" />
       <Button onClick={handleNext} text="next anecdote" />
+
+      <h1>Anecdote with most votes</h1>
+      <p>{anecdotes[mostVotedIndex]}</p>
+      <p>has {votes[mostVotedIndex]} votes</p>
     </div>
   )
 }
