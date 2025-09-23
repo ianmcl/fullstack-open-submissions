@@ -13,6 +13,11 @@ const App = () => {
       return
     }
 
+    if (persons.some(person => person.name === newName)) {
+      alert(`${newName} is already added to phonebook`)
+      return
+    }
+
     const nameObject = {
       id: String(persons.length + 1),
       name: newName,
