@@ -49,15 +49,25 @@ const App = () => {
 
     if (newName.trim() === '') return
 
-    if (persons.some(person => person.name === newName)) {
-      alert(`${newName} is already added to phonebook`)
-      return
-    }
+    const existingPerson = persons.find(person => person.name === newName)
 
-    const nameObject = {
-      name: newName,
-      number: newNumber
-    }
+    if (existingPerson) {
+      if (window.confirm(`${newName} is already in the phonebook, replace the old number with the new one?`)) {
+        const updatedPerson = { ...existingPerson, number: newNumber }
+
+        phonebookService
+          .update(existingPerson.id, updatedPerson)
+          .then(returnedPerson => {
+            setPersons(persons.map(p => p.id !== existingPerson.id ? p : returnedPerson))
+            setNewName('')
+            setNewNumber('')
+          })
+      }
+    } else {
+      const nameObject = {
+        name: newName,
+        number: newNumber
+      }
 
     phonebookService
       .create(nameObject)
@@ -66,6 +76,7 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+    }
   }
 
   const deleteName = (id) => {
