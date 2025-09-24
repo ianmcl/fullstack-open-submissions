@@ -24,10 +24,6 @@ const persons = [
   }
 ]
 
-app.get('/api/persons', (req, res) => {
-  res.json(persons)
-})
-
 app.get('/info', (req, res) => {
   const count = persons.length
   const date = new Date()
@@ -36,6 +32,16 @@ app.get('/info', (req, res) => {
     <p>Phonebook has info for ${count} people</p>
     <p>${date}</p>
   `)
+})
+
+app.get('/api/persons', (req, res) => {
+  res.json(persons)
+})
+
+app.get('/api/persons/:id', (req, res) => {
+  const id = req.params.id
+  const person = persons.find(person => person.id === id)
+  res.json(person)
 })
 
 const PORT = 3001
