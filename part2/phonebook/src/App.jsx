@@ -65,6 +65,13 @@ const App = () => {
             setNewNumber('')
             showNotification(`Updated number for ${returnedPerson.name}`, 'success')
           })
+          .catch(error => {
+            showNotification(
+              `Information of ${existingPerson.name} has already been removed from the server`,
+              'error'
+            )
+            setPersons(persons.filter(p => p.id !== existingPerson.id))
+          })
       }
     } else {
       const nameObject = {
@@ -89,6 +96,14 @@ const App = () => {
       phonebookService
         .deletePerson(id)
         .then(() => {
+          setPersons(persons.filter(p => p.id !== id))
+          showNotification(`Deleted ${person.name}`, 'success')
+        })
+        .catch(error => {
+          showNotification(
+            `Information of ${person.name} has already been removed from the server`,
+            'error'
+          )
           setPersons(persons.filter(p => p.id !== id))
         })
     }
