@@ -58,6 +58,22 @@ const App = () => {
 }
 
 const CountryDetail = ({ country }) => {
+  const api_key = import.meta.env.VITE_OPENWEATHER_KEY
+  const [weather, setWeather] = useState(null)
+
+  useEffect(() => {
+    if (country.capital && country.capital.length > 0) {
+      const capital = country.capital[0]
+      axios
+        .get(
+          `https://api.openweathermap.org/data/2.5/weather?q=${capital}&appid=${api_key}&units=metric`
+        )
+        .then(response => {
+          setWeather(response.data)
+        })
+    }
+  }, [country, api_key])
+
   return (
     <div>
       <h2>{country.name.common}</h2>
@@ -77,6 +93,18 @@ const CountryDetail = ({ country }) => {
         alt={`Flag of ${country.name.common}`}
         width="150"
       />
+
+      {weather && (
+        <div>
+          <h3>Weather in {country.capital[0]}</h3>
+          <p>temperature {weather.main.temp} °C</p>
+          <img
+            src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`}
+            alt={weather.weather[0].description}
+          />
+          <p>wind {weather.wind.speed} m/s</p>
+        </div>
+      )}
     </div>
   )
 }
