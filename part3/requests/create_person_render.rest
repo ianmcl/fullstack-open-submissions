@@ -1,0 +1,7 @@
+POST https://fullstack-open-submissions-g46h.onrender.com/api/persons
+Content-Type: application/json
+
+{
+  "name": "Alan Turing",
+  "number": "123-456-7890"
+}
